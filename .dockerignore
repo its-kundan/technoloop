@@ -1,0 +1,18 @@
+# Node modules and build artifacts should not be copied
+node_modules
+build
+
+# Git files and logs
+.git
+.gitignore
+*.log
+
+# Environment files
+.env
+.env.local
+
+# OS and IDE specific files
+.DS_Store
+Thumbs.db
+.vscode
+.idea
