@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ThemeProvider } from './contexts/ThemeContext'
 import Navbar from './components/shared/Navbar'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
@@ -14,7 +15,6 @@ import AdminJobs from "./components/admin/AdminJobs";
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
-
 
 const appRouter = createBrowserRouter([
   {
@@ -70,14 +70,15 @@ const appRouter = createBrowserRouter([
     path:"/admin/jobs/:id/applicants",
     element:<ProtectedRoute><Applicants/></ProtectedRoute> 
   },
-
 ])
-function App() {
 
+function App() {
   return (
-    <div>
-      <RouterProvider router={appRouter} />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-background">
+        <RouterProvider router={appRouter} />
+      </div>
+    </ThemeProvider>
   )
 }
 
