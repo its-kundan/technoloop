@@ -1,13 +1,12 @@
 import React from 'react'
 import { Button } from './ui/button'
-import { Bookmark } from 'lucide-react'
+import { Bookmark, MapPin, Clock, DollarSign } from 'lucide-react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
 
 const Job = ({job}) => {
     const navigate = useNavigate();
-    // const jobId = "lsekdhjgdsnfvsdkjf";
 
     const daysAgoFunction = (mongodbTime) => {
         const createdAt = new Date(mongodbTime);
@@ -17,36 +16,57 @@ const Job = ({job}) => {
     }
     
     return (
-        <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
-            <div className='flex items-center justify-between'>
-                <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
-                <Button variant="outline" className="rounded-full" size="icon"><Bookmark /></Button>
+        <div className='card-modern p-6 hover-lift'>
+            <div className='flex items-center justify-between mb-4'>
+                <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+                    <Clock className='w-4 h-4' />
+                    <span>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</span>
+                </div>
+                <Button variant="outline" className="rounded-full hover:bg-accent" size="icon">
+                    <Bookmark className='w-4 h-4' />
+                </Button>
             </div>
 
-            <div className='flex items-center gap-2 my-2'>
-                <Button className="p-6" variant="outline" size="icon">
-                    <Avatar>
+            <div className='flex items-center gap-3 mb-4'>
+                <div className='w-12 h-12 gradient-primary rounded-xl flex items-center justify-center'>
+                    <Avatar className='w-8 h-8'>
                         <AvatarImage src={job?.company?.logo} />
                     </Avatar>
-                </Button>
+                </div>
                 <div>
-                    <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
-                    <p className='text-sm text-gray-500'>India</p>
+                    <h3 className='font-semibold text-foreground'>{job?.company?.name}</h3>
+                    <div className='flex items-center gap-1 text-sm text-muted-foreground'>
+                        <MapPin className='w-3 h-3' />
+                        <span>India</span>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <h1 className='font-bold text-lg my-2'>{job?.title}</h1>
-                <p className='text-sm text-gray-600'>{job?.description}</p>
+            <div className='mb-4'>
+                <h2 className='font-bold text-xl text-foreground mb-2'>{job?.title}</h2>
+                <p className='text-sm text-muted-foreground leading-relaxed line-clamp-2'>{job?.description}</p>
             </div>
-            <div className='flex items-center gap-2 mt-4'>
-                <Badge className={'text-blue-700 font-bold'} variant="ghost">{job?.position} Positions</Badge>
-                <Badge className={'text-[#F83002] font-bold'} variant="ghost">{job?.jobType}</Badge>
-                <Badge className={'text-[#7209b7] font-bold'} variant="ghost">{job?.salary}LPA</Badge>
+            
+            <div className='flex flex-wrap items-center gap-2 mb-4'>
+                <Badge className='badge-modern'>{job?.position} Positions</Badge>
+                <Badge className='badge-modern-secondary'>{job?.jobType}</Badge>
+                <Badge className='badge-modern-accent'>
+                    <DollarSign className='w-3 h-3 mr-1' />
+                    {job?.salary}LPA
+                </Badge>
             </div>
-            <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={()=> navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
-                <Button className="bg-[#7209b7]">Save For Later</Button>
+            
+            <div className='flex items-center gap-3 pt-4 border-t border-border/50'>
+                <Button 
+                    onClick={() => navigate(`/description/${job?._id}`)} 
+                    variant="outline" 
+                    className='btn-secondary flex-1'
+                >
+                    View Details
+                </Button>
+                <Button className='btn-primary flex-1'>
+                    Save Job
+                </Button>
             </div>
         </div>
     )
